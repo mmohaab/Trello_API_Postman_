@@ -1,0 +1,1337 @@
+{
+	"info": {
+		"_postman_id": "ae649c94-7348-4c8a-8cb2-0bea002fe8d2",
+		"name": "Trello-API-Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37805739"
+	},
+	"item": [
+		{
+			"name": "Post Requests",
+			"item": [
+				{
+					"name": "Create a board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var Bid = jsonData.id\r",
+									"var Bname = pm.environment.get(\"BoardName\");\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains board name\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"board name is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(Bname);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains board id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"BoardID\", Bid);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"BoardName\", \"Board 1\");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}boards/?name={{BoardName}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}boards"
+							],
+							"path": [
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{BoardName}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Label",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"LabelName\", \"Label 1\");\r",
+									"pm.environment.set(\"LabelColor\", \"red\");\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var Lid = jsonData.id\r",
+									"var Lname = pm.environment.get(\"LabelName\");\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains Label name\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Label name is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(Lname);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains Label id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains Label color\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"color\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Label color is correct\", function () {\r",
+									"    var Lcolor = pm.environment.get(\"LabelColor\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.color).to.eql(Lcolor);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Label is created in the right board\", function () {\r",
+									"    var Bid = pm.environment.get(\"BoardID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.idBoard).to.eql(Bid);\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"LabelID\", Lid);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}labels?name={{LabelName}}&color={{LabelColor}}&idBoard={{BoardID}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}labels"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{LabelName}}"
+								},
+								{
+									"key": "color",
+									"value": "{{LabelColor}}"
+								},
+								{
+									"key": "idBoard",
+									"value": "{{BoardID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create List",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"ListName\", \"List 1\");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var Lid = jsonData.id\r",
+									"var Lname = pm.environment.get(\"ListName\");\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains List name\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"List name is correct\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(Lname);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains List id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"List is created in the right board\", function () {\r",
+									"    var Bid = pm.environment.get(\"BoardID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.idBoard).to.eql(Bid);\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"ListID\", Lid);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}lists?name={{ListName}}&idBoard={{BoardID}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}lists"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "{{ListName}}"
+								},
+								{
+									"key": "idBoard",
+									"value": "{{BoardID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Card",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"CardName\", null);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var Cid = jsonData.id\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Card is created in the right List and right board\", function () {\r",
+									"    var Bid = pm.environment.get(\"BoardID\");\r",
+									"    var Lid = pm.environment.get(\"ListID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.idBoard).to.eql(Bid);\r",
+									"    pm.expect(jsonData.idList).to.eql(Lid);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains Card id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"\r",
+									"pm.environment.set(\"CardID\", Cid);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}cards?idList={{ListID}}&key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}cards"
+							],
+							"query": [
+								{
+									"key": "idList",
+									"value": "{{ListID}}"
+								},
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Requests",
+			"item": [
+				{
+					"name": "Get Board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains board id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"board id is correct\", function () {\r",
+									"    var Bid = pm.environment.get(\"BoardID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.eql(Bid);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains board name\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"board name is correct\", function () {\r",
+									"    var Bname = pm.environment.get(\"BoardName\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(Bname);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}boards/{{BoardID}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}boards"
+							],
+							"path": [
+								"{{BoardID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Label",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains Label id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Label id is correct\", function () {\r",
+									"    var Lid = pm.environment.get(\"LabelID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.eql(Lid);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains Label name\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Label name is correct\", function () {\r",
+									"    var Lname = pm.environment.get(\"LabelName\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(Lname);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains Label color\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"color\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Label color is correct\", function () {\r",
+									"    var Lcolor = pm.environment.get(\"LabelColor\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.color).to.eql(Lcolor);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Label is created in the right board\", function () {\r",
+									"    var Bid = pm.environment.get(\"BoardID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.idBoard).to.eql(Bid);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}labels/{{LabelID}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}labels"
+							],
+							"path": [
+								"{{LabelID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains List id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"List id is correct\", function () {\r",
+									"    var Lid = pm.environment.get(\"ListID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.eql(Lid);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains List name\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"List name is correct\", function () {\r",
+									"    var Lname = pm.environment.get(\"ListName\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(Lname);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"List is created in the right board\", function () {\r",
+									"    var Bid = pm.environment.get(\"BoardID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.idBoard).to.eql(Bid);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}lists/{{ListID}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}lists"
+							],
+							"path": [
+								"{{ListID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Card",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Card is in the right List and right board\", function () {\r",
+									"    var Bid = pm.environment.get(\"BoardID\");\r",
+									"    var Lid = pm.environment.get(\"ListID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.idBoard).to.eql(Bid);\r",
+									"    pm.expect(jsonData.idList).to.eql(Lid);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains Card id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Card id is correct\", function () {\r",
+									"    var Cid = pm.environment.get(\"CardID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.eql(Cid);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Card name is empty\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(\"\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}cards/{{CardID}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}cards"
+							],
+							"path": [
+								"{{CardID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Put Requests",
+			"item": [
+				{
+					"name": "Update Board",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"BoardName\", \"Board 2\");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains board id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"board id is correct\", function () {\r",
+									"    var Bid = pm.environment.get(\"BoardID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.eql(Bid);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains board name\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"board name is updated successfully\", function () {\r",
+									"    var Bname = pm.environment.get(\"BoardName\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(Bname);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}boards/{{BoardID}}?key={{key}}&token={{token}}&name={{BoardName}}",
+							"host": [
+								"{{url}}boards"
+							],
+							"path": [
+								"{{BoardID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "name",
+									"value": "{{BoardName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Label",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"LabelName\", \"Label 2\");\r",
+									"pm.environment.set(\"LabelColor\", \"blue\");\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains Label id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Label id is correct\", function () {\r",
+									"    var Lid = pm.environment.get(\"LabelID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.eql(Lid);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains Label name\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Label name is updated successfully\", function () {\r",
+									"    var Lname = pm.environment.get(\"LabelName\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(Lname);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains Label color\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"color\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Label color is updated successfully\", function () {\r",
+									"    var Lcolor = pm.environment.get(\"LabelColor\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.color).to.eql(Lcolor);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Label is created in the right board\", function () {\r",
+									"    var Bid = pm.environment.get(\"BoardID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.idBoard).to.eql(Bid);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}labels/{{LabelID}}?key={{key}}&token={{token}}&name={{LabelName}}&color={{LabelColor}}",
+							"host": [
+								"{{url}}labels"
+							],
+							"path": [
+								"{{LabelID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "name",
+									"value": "{{LabelName}}"
+								},
+								{
+									"key": "color",
+									"value": "{{LabelColor}}"
+								},
+								{
+									"key": null,
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update List",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"ListName\", \"List 2\");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains List id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"List id is correct\", function () {\r",
+									"    var Lid = pm.environment.get(\"ListID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.eql(Lid);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains List name\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"name\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"List name is updated successfully\", function () {\r",
+									"    var Lname = pm.environment.get(\"ListName\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(Lname);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"List is created in the right board\", function () {\r",
+									"    var Bid = pm.environment.get(\"BoardID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.idBoard).to.eql(Bid);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}lists/{{ListID}}?key={{key}}&token={{token}}&name={{ListName}}",
+							"host": [
+								"{{url}}lists"
+							],
+							"path": [
+								"{{ListID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "name",
+									"value": "{{ListName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Card",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"CardName\", \"Card 1\");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Card is in the right List and right board\", function () {\r",
+									"    var Bid = pm.environment.get(\"BoardID\");\r",
+									"    var Lid = pm.environment.get(\"ListID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.idBoard).to.eql(Bid);\r",
+									"    pm.expect(jsonData.idList).to.eql(Lid);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response body contains Card id\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"id\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Card id is correct\", function () {\r",
+									"    var Cid = pm.environment.get(\"CardID\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.id).to.eql(Cid);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Card name is updated successfully\", function () {\r",
+									"    var Cname = pm.environment.get(\"CardName\");\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.name).to.eql(Cname);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}cards/{{CardID}}?key={{key}}&token={{token}}&name={{CardName}}",
+							"host": [
+								"{{url}}cards"
+							],
+							"path": [
+								"{{CardID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "name",
+									"value": "{{CardName}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Delete Requests",
+			"item": [
+				{
+					"name": "Delete Label",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}labels/{{LabelID}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}labels"
+							],
+							"path": [
+								"{{LabelID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Card",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}cards/{{CardID}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}cards"
+							],
+							"path": [
+								"{{CardID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"assure value equals null\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData._value).to.eql(null);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}boards/{{BoardID}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}boards"
+							],
+							"path": [
+								"{{BoardID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								},
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Get Requests after delete",
+			"item": [
+				{
+					"name": "Get Card",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}cards/{{CardID}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}cards"
+							],
+							"path": [
+								"{{CardID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}lists/{{ListID}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}lists"
+							],
+							"path": [
+								"{{ListID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Label",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}labels/{{LabelID}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}labels"
+							],
+							"path": [
+								"{{LabelID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Board",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{url}}boards/{{BoardID}}?key={{key}}&token={{token}}",
+							"host": [
+								"{{url}}boards"
+							],
+							"path": [
+								"{{BoardID}}"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "{{key}}"
+								},
+								{
+									"key": "token",
+									"value": "{{token}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
